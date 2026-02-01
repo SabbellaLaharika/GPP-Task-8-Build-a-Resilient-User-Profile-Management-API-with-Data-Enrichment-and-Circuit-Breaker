@@ -1,0 +1,31 @@
+{
+  "name": "gpp-task-8-build-a-resilient-user-profile-management-api-with-data-enrichment-and-circuit-breaker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "helmet": "^8.1.0",
+    "joi": "^18.0.2",
+    "morgan": "^1.10.1",
+    "mysql2": "^3.16.2",
+    "opossum": "^9.0.0",
+    "sequelize": "^6.37.7",
+    "swagger-ui-express": "^5.0.1",
+    "winston": "^3.19.0",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "jest": "^30.2.0",
+    "nodemon": "^3.1.11",
+    "supertest": "^7.2.2"
+  }
+}
