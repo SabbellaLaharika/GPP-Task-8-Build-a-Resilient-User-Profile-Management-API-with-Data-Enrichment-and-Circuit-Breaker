@@ -1,9 +1,11 @@
 {
   "name": "gpp-task-8-build-a-resilient-user-profile-management-api-with-data-enrichment-and-circuit-breaker",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
   },
   "keywords": [],
   "author": "",
