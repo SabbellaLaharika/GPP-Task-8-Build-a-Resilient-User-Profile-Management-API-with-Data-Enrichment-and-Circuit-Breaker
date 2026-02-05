@@ -5,7 +5,9 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:8080" # Map host port 8080 to container port 8080
+      - "8085:8080" # Map host port 8085 to container port 8080
+    env_file:
+      - .env
     environment:
       # Referencing variables from .env file for dynamic configuration
       PORT: 8080
@@ -37,6 +39,8 @@ services:
     image: mysql:8
     ports:
       - "3307:3306"
+    env_file:
+      - .env
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
@@ -57,6 +61,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8081:8081"
+    env_file:
+      - .env
     environment:
       MOCK_PORT: 8081
       MOCK_SERVICE_FAILURE_RATE: ${MOCK_SERVICE_FAILURE_RATE}

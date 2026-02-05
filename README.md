@@ -28,14 +28,40 @@ A robust, containerized Node.js API for managing user profiles, featuring advanc
 
 ## 🏗️ Architecture & Design Decisions
 
-### Repository & Unit of Work
-We implemented the **Repository Pattern** to decouple business logic from data access details. The **Unit of Work** pattern ensures transactional integrity; if any part of a complex operation fails, the entire transaction rolls back, ensuring strictly consistent data.
+### 1. Repository Pattern with Unit of Work
+**Why**: To strictly decouple business logic from the persistence mechanism and ensure data integrity.
+**Benefits**:
+- **Testability**: Allows us to easily mock the database layer when unit testing the Service layer.
+- **Maintainability**: Switching databases (e.g., MySQL to PostgreSQL) only requires changes in the Repository implementation, not the logic.
+- **Atomicity**: The Unit of Work ensures that operations like "Create User" are either fully completed or fully rolled back (ACID properties), preventing partial data states.
 
-### Resilience Strategy
-The `/enriched` endpoint depends on an unreliable external service.
-1.  **Retry**: For transient errors (e.g., network blips), we retry the request up to 3 times with exponential backoff (100ms, 200ms, 400ms).
-2.  **Circuit Breaker**: If failures persist (threshold reached), the circuit opens to fail fast and protect system resources.
-3.  **Fallback**: When the circuit is open or requests fail, the API gracefully degrades by returning the basic user profile with an `unavailable` status for enrichment data.
+### 2. Resilience Patterns (Enrichment Service)
+The system integrates with a "potentially unreliable" external service. We implemented a robust defense strategy:
+
+#### Circuit Breaker (Opossum)
+- **Mechanism**: Wraps external calls. If failures exceed a 50% threshold or the service times out repeatedly, the circuit moves to `OPEN` state.
+- **Why**: Prevents "Cascade Failures". If the external service hangs, our API shouldn't hang with it. It fails fast, freeing up threads/resources.
+- **Benefit**: Ensures the core User API remains responsive even when the Enrichment subsystem is dead.
+
+#### Retry Mechanism (Exponential Backoff)
+- **Mechanism**: Uses `axios-retry`. If a request fails (network error or 5xx), it retries 3 times with specific delays: 100ms, 200ms, 400ms.
+- **Why**: Distinguishes between "outage" and "blip". A temporary network packet loss shouldn't cause a user error.
+- **Trade-off**: Increases latency for the failed request (Total Wait = ~700ms + timeouts), but significantly improves success rates for transient errors.
+
+#### Fallback Strategy
+- When the Circuit Breaker is open or retries validly fail, the system returns `{ enrichedDataStatus: 'unavailable' }` instead of a 500 Error. This allows the frontend to show the user their profile, perhaps with a "Enrichment data currently unavailable" warning, rather than a blank screen.
+
+## 📸 Demonstration
+
+*(Please insert screenshots or a link to your video demo here)*
+
+### Scenarios to Demonstrate:
+1.  **Happy Path**: Successful creation and retrieval of a user with enrichment data.
+2.  **Validation Error**: Trying to create a user with an invalid email.
+3.  **Circuit Breaker**:
+    - Configure `mock-service` to fail 100% of the time.
+    - Hit the API and observe the `unavailable` status.
+    - Check logs for "Circuit Breaker OPEN".
 
 ## ⚙️ Setup & Installation
 
