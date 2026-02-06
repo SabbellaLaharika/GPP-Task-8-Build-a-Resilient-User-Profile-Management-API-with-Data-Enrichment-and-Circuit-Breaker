@@ -9,6 +9,11 @@ const userSchema = Joi.object({
     email: Joi.string().email().required()
 });
 
+const updateUserSchema = Joi.object({
+    name: Joi.string(),
+    email: Joi.string().email()
+}).min(1); // Ensure at least one field is provided
+
 class UserController {
     async createUser(req, res, next) {
         try {
@@ -48,7 +53,7 @@ class UserController {
 
     async updateUser(req, res, next) {
         try {
-            const { error, value } = userSchema.validate(req.body);
+            const { error, value } = updateUserSchema.validate(req.body);
             if (error) {
                 return res.status(400).json({
                     errorCode: 'INVALID_INPUT',

@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`User API Integration Tests should create a new user successfully 1`] = `
+{
+  "email": "test@example.com",
+  "id": Any<String>,
+  "name": "Integration Test User",
+  "registrationDate": Any<String>,
+}
+`;
+
+exports[`User API Integration Tests should get the user by ID 1`] = `
+{
+  "email": "test@example.com",
+  "id": Any<String>,
+  "name": "Integration Test User",
+  "registrationDate": Any<String>,
+}
+`;
+
+exports[`User API Integration Tests should return 400 for invalid input 1`] = `
+{
+  "details": [
+    ""email" is required",
+  ],
+  "errorCode": "INVALID_INPUT",
+  "message": "Validation failed",
+}
+`;
+
+exports[`User API Integration Tests should return 409 for duplicate email 1`] = `
+{
+  "errorCode": "EMAIL_DUPLICATE",
+  "message": "User with this email already exists",
+}
+`;

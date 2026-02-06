@@ -2,6 +2,7 @@ const axios = require('axios');
 const axiosRetry = require('axios-retry').default; // Use .default for CommonJS
 const Opossum = require('opossum');
 const IExternalEnrichmentClient = require('./IExternalEnrichmentClient');
+const logger = require('../utils/logger');
 
 class ExternalEnrichmentClient extends IExternalEnrichmentClient {
     constructor() {
@@ -63,10 +64,10 @@ class ExternalEnrichmentClient extends IExternalEnrichmentClient {
         });
 
         // Event logging
-        this.breaker.on('open', () => console.warn('CIRCUIT BREAKER: OPEN'));
-        this.breaker.on('halfOpen', () => console.warn('CIRCUIT BREAKER: HALF-OPEN'));
-        this.breaker.on('close', () => console.info('CIRCUIT BREAKER: CLOSED'));
-        this.breaker.on('reject', () => console.warn('CIRCUIT BREAKER: REJECTED Request'));
+        this.breaker.on('open', () => logger.warn('CIRCUIT BREAKER: OPEN'));
+        this.breaker.on('halfOpen', () => logger.warn('CIRCUIT BREAKER: HALF-OPEN'));
+        this.breaker.on('close', () => logger.info('CIRCUIT BREAKER: CLOSED'));
+        this.breaker.on('reject', () => logger.warn('CIRCUIT BREAKER: REJECTED Request'));
     }
 
     async fetchEnrichmentData(userId) {

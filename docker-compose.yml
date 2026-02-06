@@ -34,6 +34,8 @@ services:
       timeout: 5s
       retries: 5
       start_period: 20s # Give the application some time to start up
+    volumes:
+      - ./tests/integration/__snapshots__:/app/tests/integration/__snapshots__
 
   db:
     image: mysql:8
