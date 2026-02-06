@@ -1,6 +1,6 @@
 const request = require('supertest');
-const app = require('../src/app');
-const sequelize = require('../src/config/database');
+const app = require('../../src/app');
+const sequelize = require('../../src/config/database');
 
 describe('User API Integration Tests', () => {
     let createdUserId;
@@ -26,6 +26,15 @@ describe('User API Integration Tests', () => {
         expect(res.statusCode).toEqual(201);
         expect(res.body).toHaveProperty('id');
         expect(res.body.email).toBe('test@example.com');
+
+        // Inline verification instead of file-based snapshot for stability
+        expect(res.body).toEqual(expect.objectContaining({
+            id: expect.any(String),
+            name: 'Integration Test User',
+            email: 'test@example.com',
+            registrationDate: expect.any(String)
+        }));
+
         createdUserId = res.body.id;
     });
 
@@ -37,7 +46,11 @@ describe('User API Integration Tests', () => {
                 // email missing
             });
         expect(res.statusCode).toEqual(400);
-        expect(res.body.errorCode).toBe('INVALID_INPUT');
+        // Verify structure without snapshot
+        expect(res.body).toEqual(expect.objectContaining({
+            errorCode: 'INVALID_INPUT',
+            message: expect.any(String)
+        }));
     });
 
     it('should return 409 for duplicate email', async () => {
@@ -48,7 +61,11 @@ describe('User API Integration Tests', () => {
                 email: 'test@example.com'
             });
         expect(res.statusCode).toEqual(409);
-        expect(res.body.errorCode).toBe('EMAIL_DUPLICATE');
+        // Verify structure without snapshot
+        expect(res.body).toEqual(expect.objectContaining({
+            errorCode: 'EMAIL_DUPLICATE',
+            message: expect.any(String)
+        }));
     });
 
     // 2. Test GET /api/users/:id
@@ -56,6 +73,12 @@ describe('User API Integration Tests', () => {
         const res = await request(app).get(`/api/users/${createdUserId}`);
         expect(res.statusCode).toEqual(200);
         expect(res.body.id).toBe(createdUserId);
+        expect(res.body).toEqual(expect.objectContaining({
+            id: expect.any(String),
+            name: 'Integration Test User',
+            email: 'test@example.com',
+            registrationDate: expect.any(String)
+        }));
     });
 
     it('should return 404 for non-existent user', async () => {

@@ -1,6 +1,6 @@
-FROM node:18-alpine
+FROM alpine:3.18
 WORKDIR /app
-RUN apk --no-cache add curl
+RUN apk add --no-cache nodejs npm curl
 COPY package*.json ./
 RUN npm install
 COPY . .
