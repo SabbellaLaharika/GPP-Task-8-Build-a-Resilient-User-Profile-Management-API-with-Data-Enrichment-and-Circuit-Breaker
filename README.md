@@ -56,27 +56,27 @@ The system integrates with a "potentially unreliable" external service. We imple
 ### 1. API Overview & Documentation
 *Interactive Swagger UI showcasing the comprehensive endpoint suite.*
 ![Swagger UI Overview](screenshots/1_swagger_overview.png)
-*(Place screenshot of http://localhost:8080/api-docs here)*
+
 
 ### 2. Distributed Data Enrichment (Happy Path)
 *Seamlessly merging local user profile data with external enrichment service data.*
 ![Enriched Response](screenshots/2_enriched_success.png)
-*(Place screenshot of GET /api/users/{id}/enriched success response)*
+
 
 ### 3. Resilience in Action (Circuit Breaker Logs)
 *Demonstrating **Self-Healing Architecture**. The system detects failures, opens the circuit, and prevents cascading outages.*
 ![Circuit Breaker Logs](screenshots/3_circuit_breaker_logs.png)
-*(Place screenshot of terminal showing: "Retry attempt...", "CIRCUIT BREAKER: OPEN")*
+
 
 ### 4. Graceful Degradation (Fallback Strategy)
 *User experience protection during outages. The API remains responsive (200 OK) even when dependent services fail.*
 ![Fallback Response](screenshots/4_fallback_response.png)
-*(Place screenshot of GET /api/users/{id}/enriched returning "enrichedDataStatus": "unavailable")*
+
 
 ### 5. Quality Assurance
 *Comprehensive test suite covering Integration, Unit, and Resilience scenarios.*
 ![Test Results](screenshots/5_test_coverage.png)
-*(Place screenshot of `npm test` results showing all green checks)*
+
 
 ## ⚙️ Setup & Installation
 
@@ -127,7 +127,7 @@ This ensures consistent results by running tests inside the container.
 ```bash
 docker-compose exec app npm test
 ```
-*Runs tests inside the container. Because we use volume mounts, generated snapshots are automatically synced to your host `tests/integration/__snapshots__`* folder.*
+*Runs tests inside the container. Because we use volume mounts, generated snapshots are automatically synced to your host `tests/integration/__snapshots__` folder.*
 
 ### 2. Run Tests Locally
 To run tests on your host machine:
@@ -136,7 +136,7 @@ To run tests on your host machine:
 2.  **Set Environment Variables**:
     *   `DB_HOST=localhost`
     *   `DB_PORT=3307`
-    *   `EXTERNAL_SERVICE_URL=http://localhost:8081/enrich/{id}`
+    *   `EXTERNAL_SERVICE_URL=http://localhost:8081/enrich`
 3.  **Run**: `npm test`
 
 ## 📂 Project Structure

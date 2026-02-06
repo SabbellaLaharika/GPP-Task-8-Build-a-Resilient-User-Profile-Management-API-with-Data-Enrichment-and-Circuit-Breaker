@@ -56,7 +56,7 @@ Retrieves a user by their UUID.
 ### 3. Update User
 **PUT** `/users/{id}`
 
-Updates a user's name or email.
+Updates a user's name or email. Supports **partial updates** (you can send only the fields you want to change).
 
 -   **Body**:
     ```json
