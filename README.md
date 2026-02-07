@@ -53,6 +53,9 @@ The system integrates with a "potentially unreliable" external service. We imple
 
 ## 📸 System Demonstration
 
+### 🎥 Video Demo
+[Watch the Video Demo](https://drive.google.com/drive/folders/1-cdduu6gry6P97QfjCUYicwYqXyYqKVR?usp=drive_link)
+
 ### 1. API Overview & Documentation
 *Interactive Swagger UI showcasing the comprehensive endpoint suite.*
 ![Swagger UI Overview](screenshots/1_swagger_overview.png)
